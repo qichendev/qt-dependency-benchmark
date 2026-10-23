@@ -36,6 +36,10 @@ ctest --test-dir build/conan -C Release --output-on-failure
 
 Stop if installation fails. Never add `--build=missing`.
 
+### Local deployment package
+
+After building, run `python3 scripts/package_macos.py`. It creates a ZIP under `results/`, copies only the four non-system runtime libraries and their package notices, fixes load paths, ad-hoc signs the copies, and validates execution after extracting the ZIP elsewhere. The [measured archive](docs/package-size.md) is 3.05 MiB compressed / 8.37 MiB extracted file bytes. It is not a notarized public release.
+
 ### Archived vcpkg manifest experiment
 
 These commands reproduce the earlier dependency acquisition attempt. The current application requires Qt 6.11.1, so building it against this archived 6.8.3 manifest will fail the version check. No populated vcpkg binary source is configured.
