@@ -1,0 +1,7 @@
+{
+  "name": "qt-core-smoke",
+  "version-string": "0.1.0",
+  "builtin-baseline": "40a678a192636131f04b3af79ba118d869effade",
+  "dependencies": [{"name": "qtbase", "default-features": false}],
+  "overrides": [{"name": "qtbase", "version": "6.8.3"}]
+}
