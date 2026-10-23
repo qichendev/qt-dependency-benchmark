@@ -1,5 +1,7 @@
 # Findings and limits
 
+**Update:** the [successful Conan run](conan-success.md) installs and runs Qt 6.11.1. The earlier missing-package results below are historical. The key mismatch was static versus shared dependency configuration; no version overrides were needed for the successful fuller Qt setup. libffi required a scoped compiler-version selection, documented with its validation limits.
+
 ## Conan availability
 
 The [first check](conan-first-check.md) failed safely for the committed minimal Qt 6.8.3 options on macOS ARM64 / Apple Clang 17 / Release. This is an availability result, not an installation speed measurement.

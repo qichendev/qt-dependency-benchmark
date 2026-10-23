@@ -1,0 +1,11 @@
+[settings]
+os=Macos
+arch=armv8
+compiler=apple-clang
+compiler.version=17
+compiler.libcxx=libc++
+compiler.cppstd=gnu17
+build_type=Release
+# Select the published C-library binary, built with Apple Clang 13.
+# --build=never is required; this is not the compiler used for the application.
+libffi/*:compiler.version=13

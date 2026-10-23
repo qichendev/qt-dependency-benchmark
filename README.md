@@ -13,20 +13,22 @@ Compare Conan 2 and vcpkg manifest dependency acquisition without building any d
 
 ## Status
 
-See [consolidated findings](docs/findings.md) for binary archive sizes and deployment distinctions, and the [vcpkg binary-only check](docs/vcpkg-first-check.md) for the empty-cache failure test. Neither package manager has successfully installed Qt in this experiment yet.
+**Conan binary-only installation and the Qt Core smoke test now pass on macOS ARM64.** See the [successful Conan run](docs/conan-success.md) for the working profile, disk use and limitations. vcpkg testing is paused.
 
-The initial smoke application links only `Qt6::Core`, pinned to Qt 6.8.3 in CMake and both dependency manifests. It prints and checks the runtime Qt version. The [first Conan check](docs/conan-first-check.md) found no binary matching the minimal options and failed without building dependencies. No Qt library has been installed and no successful installation speed has been measured.
+The current smoke application links only `Qt6::Core` from Qt 6.11.1. Conan uses fuller published binaries, including GUI and Widgets. All dependency libraries with a `shared` option use shared linking. The original minimal 6.8.3 Conan configuration is preserved at `profiles/conan-minimal-original.txt`; historical [findings](docs/findings.md) and the [vcpkg check](docs/vcpkg-first-check.md) describe earlier experiments. The archived vcpkg manifest remains at 6.8.3 and is not equivalent to the active Conan configuration.
 
-Conan disables GUI, Widgets and several optional integrations. vcpkg disables default features. These are starting configurations, **not equivalent package builds**: recipes can still include other Qt Base libraries or enable platform requirements transitively (for example macOS dependencies). A Core-only application does not guarantee a small Core-only binary download. Custom options can also reduce the availability of prebuilt Conan packages.
+The host profile uses Apple Clang 17, with a package-specific Apple Clang 13 selection for the published libffi C library. This run verifies Qt Core only, not GUI, GLib or libffi functionality. Do not treat that exception as general cross-compiler compatibility.
 
 ### Conan 2
 
-After installing Conan 2, run from this directory:
+For this macOS ARM64 configuration, run from this directory:
 
 ```sh
+python3 -m venv .deps/tools/conan
+.deps/tools/conan/bin/python -m pip install --no-cache-dir --only-binary=:all: conan==2.33.0
 export CONAN_HOME="$PWD/.deps/conan"
-conan profile detect
-conan install . --output-folder=build/conan --build=never -s build_type=Release -s compiler.cppstd=17
+.deps/tools/conan/bin/conan profile detect
+.deps/tools/conan/bin/python scripts/try_conan.py
 cmake -S . -B build/conan -DCMAKE_TOOLCHAIN_FILE="$PWD/build/conan/conan_toolchain.cmake" -DCMAKE_BUILD_TYPE=Release
 cmake --build build/conan --config Release
 ctest --test-dir build/conan -C Release --output-on-failure
@@ -34,7 +36,9 @@ ctest --test-dir build/conan -C Release --output-on-failure
 
 Stop if installation fails. Never add `--build=missing`.
 
-### vcpkg manifest
+### Archived vcpkg manifest experiment
+
+These commands reproduce the earlier dependency acquisition attempt. The current application requires Qt 6.11.1, so building it against this archived 6.8.3 manifest will fail the version check. No populated vcpkg binary source is configured.
 
 An existing compatible binary cache is required. With the vcpkg tool under `.deps/tools/vcpkg` and binary archives under `.deps/binary-cache`:
 

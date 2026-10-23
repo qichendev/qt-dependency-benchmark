@@ -1,5 +1,7 @@
 # Qt version binary metadata comparison
 
+**Follow-up:** [Qt 6.11.1 installation succeeded](conan-success.md) after selecting shared dependencies and the published libffi binary. The default-options failures below describe the earlier Qt-only shared setting, not all supported configurations.
+
 Queried ConanCenter on 2026-10-23 UTC using `conan list qt/*` followed by `conan list qt/VERSION:*` for all 19 listed Qt 6 versions. Counts refer to package IDs under the latest recipe revision, not package revisions or every historical recipe. No archive bodies were downloaded.
 
 | Qt version | All-platform package IDs | macOS ARM64 package IDs | Apple Clang versions |

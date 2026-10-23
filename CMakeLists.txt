@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 # Also enforce binary-only installation if the vcpkg toolchain installs at configure time.
 set(VCPKG_INSTALL_OPTIONS "--only-binarycaching" CACHE STRING "vcpkg install options" FORCE)
 project(qt_core_smoke LANGUAGES CXX)
-find_package(Qt6 6.8.3 EXACT REQUIRED COMPONENTS Core)
+find_package(Qt6 6.11.1 EXACT REQUIRED COMPONENTS Core)
 add_executable(qt_core_smoke src/main.cpp)
 target_compile_features(qt_core_smoke PRIVATE cxx_std_17)
 target_link_libraries(qt_core_smoke PRIVATE Qt6::Core)
