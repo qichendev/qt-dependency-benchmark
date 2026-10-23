@@ -13,7 +13,7 @@ Compare Conan 2 and vcpkg manifest dependency acquisition without building any d
 
 ## Status
 
-The initial smoke application links only `Qt6::Core`, pinned to Qt 6.8.3 in CMake and both dependency manifests. It prints and checks the runtime Qt version. No Qt packages have been downloaded and no speed claims have been measured.
+The initial smoke application links only `Qt6::Core`, pinned to Qt 6.8.3 in CMake and both dependency manifests. It prints and checks the runtime Qt version. The [first Conan check](docs/conan-first-check.md) found no binary matching the minimal options and failed without building dependencies. No Qt library has been installed and no successful installation speed has been measured.
 
 Conan disables GUI, Widgets and several optional integrations. vcpkg disables default features. These are starting configurations, **not equivalent package builds**: recipes can still include other Qt Base libraries or enable platform requirements transitively (for example macOS dependencies). A Core-only application does not guarantee a small Core-only binary download. Custom options can also reduce the availability of prebuilt Conan packages.
 
